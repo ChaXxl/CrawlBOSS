@@ -1,5 +1,6 @@
 from pathlib import Path
 from lxml import etree
+import json
 
 from log import Logger
 
@@ -156,3 +157,71 @@ class JobDetailParser:
 
         # 地点
         location = self.safe_extract(self.xpath['location'], '地点')
+
+
+class JobListJsonParser:
+    def __int__(self):
+        self.json: json = None
+        self.count = 0
+
+    def parse(self, json_):
+        self.json = json_
+
+        if not self.json:
+            return []
+        if not isinstance(self.json, dict):
+            return []
+
+        if self.json.get('code') is None or self.json.get('message') is None:
+            return []
+
+        if self.json['code'] != '0' or self.json['message'] != 'Success':
+            return []
+
+        if self.json.get('zpData') is None or self.json['zpData'].get('jobList') is None:
+            return []
+
+        for job in self.json['zpData']['jobList']:
+            securityId = job.get('securityId')
+            bossAvatar = job.get('bossAvatar')  # hr 的头像
+            bossCert = job.get('bossCert')  # hr 的信用
+            encryptBossId = job.get('encryptBossId')
+            bossName = job.get('bossName')  # hr 的名字
+            goldHunter = job.get('goldHunter')  # 是否是金牌猎头
+            bossOnline = job.get('bossOnline')  # hr 是否在线
+            encryptJobId = job.get('encryptJobId')
+            expectId = job.get('expectId')
+
+            jobName = job.get('jobName')  # 岗位名
+            lid = job.get('lid')
+            salaryDesc = job.get('salaryDesc')  # 薪资
+            jobLabels: list = job.get('jobLabels')  # 工作经验 (在校/应届)
+            jobValidStatus = job.get('jobValidStatus')
+            skills: list = job.get('skills')  # 技能要求
+            jobExperience = job.get('jobExperience')  # 工作经验 (在校/应届)
+            daysPerWeekDesc = job.get('daysPerWeekDesc')
+            leastMonthDesc = job.get('leastMonthDesc')
+            jobDegree = job.get('jobDegree')  # 学历要求
+
+            cityName = job.get('cityName')  # 所在市
+            areaDistrict = job.get('areaDistrict')  # 区
+            businessDistrict = job.get('businessDistrict')  # 商圈
+
+            jobType = job.get('jobType')
+            proxyJob = job.get('proxyJob')
+            proxyType = job.get('proxyType')
+            anonymous = job.get('anonymous')
+            outland = job.get('outland')
+            optimal = job.get('optimal')
+            isShield = job.get('isShield')
+            atsDirectPost = job.get('atsDirectPost')
+            gps = job.get('gps')
+
+            encryptBrandId = job.get('encryptBrandId')
+            brandName = job.get('brandName')  # 品牌名 公司名
+            brandLogo = job.get('brandLogo')  # 公司 logo
+            brandStageName = job.get('brandStageName')  # 融资
+            brandIndustry = job.get('brandIndustry')  # 行业
+            brandScaleName = job.get('brandScaleName')  # 公司人数
+            welfareList: list = job.get('welfareList')  # 福利
+
