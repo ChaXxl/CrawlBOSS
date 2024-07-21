@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import psycopg2
-
 from log import Logger
 
 
