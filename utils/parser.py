@@ -45,16 +45,16 @@ class JobDetailParser:
             'requirement': '//div[@id="main"]//div[@class="job-detail-section"]/div[@class="job-sec-text"]/text()',
 
             # ---------------- 公司简介 ----------------
-            # 公司名
+            # 公司名称
             'company': '//div[@id="main"]//div[@class="sider-company"]/div[@class="company-info"]/a[2]/text',
 
             # 公司 logo
-            'logo': '//div[@id="main"]//div[@class="sider-company"]/div[@class="company-info"]/a[1]/img/@src',
+            'logo_url': '//div[@id="main"]//div[@class="sider-company"]/div[@class="company-info"]/a[1]/img/@src',
 
             # 是否要融资
             'financing': '//div[@id="main"]//div[@class="sider-company"]/p[2]/text()',
 
-            # 公司人数
+            # 公司规模
             'company_size': '//div[@id="main"]//div[@class="sider-company"]/p[3]/text()',
 
             # 行业
@@ -93,7 +93,7 @@ class JobDetailParser:
 
     def parse(self):
         # 招聘简介
-        # 岗位名
+        # 岗位名称
         title = self.safe_extract(self.xpath['title'], '岗位名')
 
         # 薪资
@@ -118,19 +118,19 @@ class JobDetailParser:
         requirement = self.safe_extract(self.xpath['requirement'], '职位要求')
 
         # 公司简介
-        # 公司名
+        # 公司名称
         company = self.safe_extract(self.xpath['company'], '公司名')
 
         # 公司 logo
-        logo = self.safe_extract(self.xpath['logo'], '公司 logo')
+        logo_url = self.safe_extract(self.xpath['logo'], '公司 logo')
 
         # 是否要融资
         financing = self.safe_extract(self.xpath['financing'], '是否要融资')
 
-        # 公司人数
+        # 公司规模
         company_size = self.safe_extract(self.xpath['company_size'], '公司人数')
 
-        # 行业
+        # 所属行业
         industry = self.safe_extract(self.xpath['industry'], '行业')
 
         # 工商信息
@@ -192,7 +192,7 @@ class JobListJsonParser:
             encryptJobId = job.get('encryptJobId')
             expectId = job.get('expectId')
 
-            jobName = job.get('jobName')  # 岗位名
+            jobName = job.get('jobName')  # 岗位名称
             lid = job.get('lid')
             salaryDesc = job.get('salaryDesc')  # 薪资
             jobLabels: list = job.get('jobLabels')  # 工作经验 (在校/应届)
@@ -218,7 +218,7 @@ class JobListJsonParser:
             gps = job.get('gps')
 
             encryptBrandId = job.get('encryptBrandId')
-            brandName = job.get('brandName')  # 品牌名 公司名
+            brandName = job.get('brandName')  # 品牌名 公司名称
             brandLogo = job.get('brandLogo')  # 公司 logo
             brandStageName = job.get('brandStageName')  # 融资
             brandIndustry = job.get('brandIndustry')  # 行业
